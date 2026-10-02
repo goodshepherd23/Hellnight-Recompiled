@@ -6,7 +6,7 @@ region = "Europe"
 implementation_state = "release_candidate_prepared"
 
 [release]
-version = "0.1.0"
+version = "0.1.1"
 status = "candidate"
 target_date = "2026-10-02"
 
@@ -23,5 +23,6 @@ profile = "OpenBIOS"
 [validation]
 windows_package = "not_run"
 windows_gameplay = "boot_title_newgame_early_gameplay"
+windows_pgo = "passed"
 linux_gameplay = "not_run"
 macos_gameplay = "not_run"

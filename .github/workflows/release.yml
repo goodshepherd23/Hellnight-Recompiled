@@ -128,6 +128,7 @@ jobs:
           echo "applied $p"
         done
         grep -q PSX_DISPLAY_FILL_RANGE psxrecomp/runtime/include/display_scanout.h
+        grep -q _soft_stop_windows psxrecomp/psxrecomp_cli.py
     - name: Setup host mode (no game C / BIOS backends in CI)
       shell: bash
       run: bash psxrecomp/tools/ci/clear_generated.sh

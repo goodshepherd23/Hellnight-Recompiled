@@ -33,7 +33,7 @@ Expected disc (data track 01): 633,786,384 bytes, MD5
 git clone --recursive https://github.com/goodshepherd23/Hellnight-Recompiled
 cd Hellnight-Recompiled
 cp bios/openbios.bin psxrecomp/bios/openbios.bin
-git -C psxrecomp apply ../patches/0001-display-fill-range.patch
+for p in patches/*.patch; do git -C psxrecomp apply "../$p"; done
 python psxrecomp/psxrecomp_cli.py generate --config game.toml --project-root . --disc "/path/to/Hellnight (Europe).cue" --force-emitters
 python psxrecomp/psxrecomp_cli.py rebuild --config game.toml --project-root . --build-dir build-release --target psx-runtime --exe-basename Hellnight_Recompiled --no-pgo
 ```
@@ -43,15 +43,20 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
 
-The patch keeps FMVs from sitting low in the frame: the European disc runs in
-NTSC mode but keeps a PAL-tuned vertical display range.
+The patches fix two things in the pinned framework:
+
+- `0001` keeps FMVs from sitting low in the frame. The European disc runs in NTSC
+  mode but keeps a PAL-tuned vertical display range.
+- `0002` makes the launcher's **PGO optimize** work on Windows. Without it, the
+  training run fails with `[WinError 5] Access is denied` and writes no profile.
+  `CMakeLists.txt` also wires up `PSX_PGO`, which this framework revision ignores.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.0 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+Version 0.1.1 is an early release. What was tested on Windows x64 (Intel Iris Xe):
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
@@ -66,8 +71,9 @@ and macOS packages. Please open an issue if you hit a crash, a hang or a
 graphical bug, and include the `psx_last_run_report.json` written next to the
 executable.
 
-The "PGO optimize" option in the launcher is known to fail on Windows with this
-framework revision. Please don't use it.
+**PGO optimize** (in the launcher) works on Windows as of 0.1.1. It rebuilds the
+game with profile-guided optimization: two 60-second training runs, then an
+optimized build. Leave the game window alone while it trains.
 
 ## Credits and licenses
 

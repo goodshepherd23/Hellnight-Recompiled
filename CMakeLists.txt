@@ -41,6 +41,31 @@ psxrecomp_add_game_runtime(psx-runtime
     CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
 )
 
+# Clang PGO. psxrecomp_cli.py `rebuild --force-pgo` passes -DPSX_PGO=generate
+# then =use, but the pinned framework's runtime.cmake never reads PSX_PGO, so
+# without this block the "instrumented" build is a plain one and train writes
+# nothing. Pairs with patches/0002-pgo-windows-soft-stop.patch.
+# The train step points LLVM_PROFILE_FILE at <build>/pgo and merges the raws to
+# <build>/pgo/default.profdata.
+set(PSX_PGO "" CACHE STRING "Clang PGO mode: empty, generate or use")
+if(PSX_PGO STREQUAL "generate")
+    target_compile_options(psx-runtime PRIVATE -fprofile-generate)
+    target_link_options(psx-runtime PRIVATE -fprofile-generate)
+    message(STATUS "PGO: instrumented build (-fprofile-generate)")
+elseif(PSX_PGO STREQUAL "use")
+    set(_PSX_PGO_DATA "${CMAKE_BINARY_DIR}/pgo/default.profdata")
+    if(EXISTS "${_PSX_PGO_DATA}")
+        target_compile_options(psx-runtime PRIVATE
+            "-fprofile-use=${_PSX_PGO_DATA}"
+            -Wno-profile-instr-unprofiled
+            -Wno-profile-instr-out-of-date
+            -Wno-backend-plugin)
+        message(STATUS "PGO: optimizing from ${_PSX_PGO_DATA}")
+    else()
+        message(WARNING "PGO: PSX_PGO=use but ${_PSX_PGO_DATA} is missing; building without PGO")
+    endif()
+endif()
+
 # Stage runtime configs next to the exe for direct build/ launches. Only copy
 # files that exist — never fail POST_BUILD when game_options.toml is absent.
 foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
