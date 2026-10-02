@@ -131,7 +131,7 @@ jobs:
         msystem: MINGW64
         update: 'true'
         install: mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-SDL2 mingw-w64-x86_64-pkgconf
-          mingw-w64-x86_64-vulkan-headers mingw-w64-x86_64-shaderc curl zip
+          mingw-w64-x86_64-vulkan-headers mingw-w64-x86_64-shaderc curl zip diffutils
     - name: Install deps (Linux)
       if: runner.os == 'Linux'
       run: |

@@ -97,7 +97,13 @@ def audit_archive(path: Path, repo: str, expected: dict[str, str]) -> dict[str, 
                 continue
             lower = name.lower()
             suffix = PurePosixPath(lower).suffix
-            if suffix in FORBIDDEN_SUFFIXES or (suffix == ".bin" and lower != "psxrecomp/bios/openbios.bin"):
+            # The framework packager also stages the same OpenBIOS ROM beside the
+            # executable (bios/openbios.bin), where the runtime loads it. Allow
+            # that copy only when it is byte-identical to the pinned MIT image.
+            exe_side_openbios = (lower == "bios/openbios.bin"
+                                 and sha256(archive.read(info)) == OPENBIOS_SHA256)
+            if suffix in FORBIDDEN_SUFFIXES or (suffix == ".bin" and lower != "psxrecomp/bios/openbios.bin"
+                                                and not exe_side_openbios):
                 forbidden.append(name)
             if lower.startswith("generated/") or lower.startswith("disc/"):
                 generated.append(name)
