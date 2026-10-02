@@ -33,6 +33,7 @@ Expected disc (data track 01): 633,786,384 bytes, MD5
 git clone --recursive https://github.com/goodshepherd23/Hellnight-Recompiled
 cd Hellnight-Recompiled
 cp bios/openbios.bin psxrecomp/bios/openbios.bin
+git -C psxrecomp apply ../patches/0001-display-fill-range.patch
 python psxrecomp/psxrecomp_cli.py generate --config game.toml --project-root . --disc "/path/to/Hellnight (Europe).cue" --force-emitters
 python psxrecomp/psxrecomp_cli.py rebuild --config game.toml --project-root . --build-dir build-release --target psx-runtime --exe-basename Hellnight_Recompiled --no-pgo
 ```
@@ -41,6 +42,9 @@ The `cp` step is needed because the pinned framework revision does not include
 the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
+
+The patch keeps FMVs from sitting low in the frame: the European disc runs in
+NTSC mode but keeps a PAL-tuned vertical display range.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
@@ -52,6 +56,10 @@ Version 0.1.0 is an early release. What was tested on Windows x64 (Intel Iris Xe
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
 - Holds about 100% speed at 60 fps (the European disc runs its GPU in 60 Hz mode)
+- FMVs fill the frame. The European disc keeps a PAL-tuned vertical range in NTSC
+  mode, which on a real NTSC console shows the picture low. This build presents
+  the range directly instead. The Konami logo screen is taller than that range,
+  so its bottom edge is cut off, the same as on an NTSC console.
 
 **Not tested yet:** memory-card saves and loads, a full playthrough, and the Linux
 and macOS packages. Please open an issue if you hit a crash, a hang or a

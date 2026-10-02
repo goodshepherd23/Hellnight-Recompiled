@@ -109,7 +109,7 @@ jobs:
     - name: Lint boot-EXE name consistency
       shell: bash
       run: bash psxrecomp/tools/ci/check_boot_exe.sh .
-    - name: Stage bundled OpenBIOS image
+    - name: Stage bundled OpenBIOS image and title patches
       shell: bash
       run: |
         set -euo pipefail
@@ -121,6 +121,13 @@ jobs:
         if command -v sha256sum >/dev/null 2>&1; then got=$(sha256sum psxrecomp/bios/openbios.bin | cut -d' ' -f1); else got=$(shasum -a 256 psxrecomp/bios/openbios.bin | cut -d' ' -f1); fi
         [[ -n "$want" && "$got" == "$want" ]] || { echo "::error::openbios.bin sha256 $got != pinned $want"; exit 1; }
         echo "staged OpenBIOS $got"
+        # Title patches to the pinned framework (applied before configure so
+        # both the setup host and the packaged SDK sources carry them).
+        for p in patches/*.patch; do
+          git -C psxrecomp apply --whitespace=nowarn "../$p"
+          echo "applied $p"
+        done
+        grep -q PSX_DISPLAY_FILL_RANGE psxrecomp/runtime/include/display_scanout.h
     - name: Setup host mode (no game C / BIOS backends in CI)
       shell: bash
       run: bash psxrecomp/tools/ci/clear_generated.sh

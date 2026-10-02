@@ -1,0 +1,19 @@
+--- a/runtime/include/display_scanout.h	2026-10-01 19:52:18.410285700 -0600
++++ b/runtime/include/display_scanout.h	2026-10-01 19:52:18.471643800 -0600
+@@ -107,6 +107,16 @@
+         ? (uint32_t)ymin - raw_y1 : 0u;
+     out.source_height = (uint32_t)(y2 - y1);
+     out.offset_y = ((y1 + y2) - (centre * 2)) / 2;
++#ifdef PSX_DISPLAY_FILL_RANGE
++    /* Hellnight Recompiled: the European disc runs in NTSC mode but keeps a
++     * PAL-tuned GP1(07h) range (44..258), so television placement drops the
++     * 24-bit FMV canvas 28 lines and leaves a black band on top. Present the
++     * clipped range itself as the canvas, like the 15-bit path already does.
++     * Clipping to the active region is unchanged; only placement differs. */
++    out.canvas_height = out.source_height;
++    out.canvas_origin_y = 0u;
++    out.offset_y = 0;
++#endif
+     out.valid = 1;
+     return out;
+ }

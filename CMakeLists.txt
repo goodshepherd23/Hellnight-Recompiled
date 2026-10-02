@@ -53,3 +53,8 @@ foreach(_PSX_RUNTIME_CONFIG game.toml game_options.toml)
             VERBATIM)
     endif()
 endforeach()
+
+# Hellnight: the European disc keeps a PAL-tuned vertical display range while
+# running in NTSC mode, which drops FMVs low with a black band on top. Present
+# the clipped range directly (patches/0001-display-fill-range.patch).
+target_compile_definitions(psx-runtime PRIVATE PSX_DISPLAY_FILL_RANGE=1)
