@@ -11,3 +11,4 @@ settings.toml
 *.mcd*
 *.mcr*
 __pycache__/
+dist-ci/

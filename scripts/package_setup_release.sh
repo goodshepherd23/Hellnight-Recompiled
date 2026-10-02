@@ -87,7 +87,7 @@ exec bash "${PACKAGER}" \
   --version-env RELEASE_VERSION \
   --runtime-dir mods \
   --disc-hint "Hellnight (Europe).cue" \
-  --bios-hint "none required: the included OpenBIOS is used" \
+  --bios-hint "the included OpenBIOS (no BIOS dump needed)" \
   --project-file disc_identity.json \
   --project-file CMakeLists.txt \
   --project-file project-manifest.toml \
