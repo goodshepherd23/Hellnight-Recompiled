@@ -1,0 +1,48 @@
+{
+  "format_version": 1,
+  "game": {
+    "name": "Hellnight",
+    "id": "SLES-01562",
+    "boot_exe": "SLES_015.62"
+  },
+  "marketing": {
+    "description": "Hellnight (Dark Messiah in Japan): first-person survival horror set in the tunnels under Tokyo, developed by Dennou Eizou Seisakusho.",
+    "publisher": "Konami",
+    "year": "1999",
+    "region": "Europe",
+    "players": 1
+  },
+  "rom_identity": {
+    "cue_name": "Hellnight (Europe).cue",
+    "bin_name": "Hellnight (Europe).bin",
+    "track_counts": [
+      1
+    ],
+    "require_cue": true,
+    "data_track": {
+      "size": 633786384,
+      "md5": "01ce6367485ab848973be612df58b5b9",
+      "sha1": "b0c791ebe50e5e678cb36aed531f2ac553b37999",
+      "crc32": "22de3f67"
+    },
+    "disc_fp": "91617156264765fc02200082e9c625eacff20bb178bae8c92a4ad45175526cf4"
+  },
+  "exe": {
+    "load_address": "0x80010000",
+    "entry_pc": "0x80036E74",
+    "text_size": "0x0006E000",
+    "stack_base": "0x801FFFF0"
+  },
+  "seeds": {
+    "count": 1125,
+    "source": "boot_exe_jal"
+  },
+  "warnings": [
+    "cue has only 1 TRACK \u2014 Track-01-only dumps fail multi-track netplay/catalog gates; prefer a full Redump cue."
+  ],
+  "notes": [
+    "entry_pc/load_address/text_size/stack_base taken from PS-X EXE header.",
+    "seeds are first-pass boot-EXE JAL targets (+ entry); expect to grow as overlays / runtime paths are discovered.",
+    "required_disc_fp is psxrecomp-toc-v1 (matches runtime DiscIdentity)."
+  ]
+}

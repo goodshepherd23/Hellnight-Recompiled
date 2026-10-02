@@ -1,0 +1,73 @@
+# Hellnight Recompiled
+
+A native PC build of **Hellnight** (PlayStation, 1999; *Dark Messiah* in Japan),
+made with the [PSXRecomp](https://github.com/mstan/psxrecomp) static recompiler
+and the shared [recomp-ui](https://github.com/mstan/recomp-ui) launcher.
+
+You must supply your own **Hellnight (Europe)** disc, serial **SLES-01562**, as a
+CUE/BIN dump. This repository and its release packages contain **no game disc, no
+BIOS dump, no generated game code and no saves**. The game code is generated on
+your machine from your disc.
+
+No retail BIOS is needed: the build uses the bundled
+[OpenBIOS](https://github.com/grumpycoders/pcsx-redux) image.
+
+## Setup
+
+1. Download the release ZIP for your platform and extract all of it into a
+   writable folder.
+2. Start `Hellnight_Recompiled` (`.exe` on Windows).
+3. Select your `Hellnight (Europe).cue` in the setup wizard. Keep the CUE and its
+   BIN together.
+4. Run **Generate & rebuild** and wait. The game starts when it finishes.
+
+On Windows the setup wizard can download portable build tools. On Linux and macOS,
+install CMake, Ninja, Python 3 and a C/C++ compiler first.
+
+Expected disc (data track 01): 633,786,384 bytes, MD5
+`01ce6367485ab848973be612df58b5b9`.
+
+## Building from source
+
+```bash
+git clone --recursive https://github.com/goodshepherd23/Hellnight-Recompiled
+cd Hellnight-Recompiled
+python psxrecomp/psxrecomp_cli.py generate --config game.toml --project-root . --disc "/path/to/Hellnight (Europe).cue" --force-emitters
+python psxrecomp/psxrecomp_cli.py rebuild --config game.toml --project-root . --build-dir build-release --target psx-runtime --exe-basename Hellnight_Recompiled --no-pgo
+```
+
+`--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
+emitters that leave the build with no BIOS backend.
+
+## Status
+
+Version 0.1.0 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+
+- Boots through the intro FMV to the title screen
+- New Game starts. In-game dialogue, the examine cursor and room transitions work
+- Holds about 100% speed at 60 fps (the European disc runs its GPU in 60 Hz mode)
+
+**Not tested yet:** memory-card saves and loads, a full playthrough, and the Linux
+and macOS packages. Please open an issue if you hit a crash, a hang or a
+graphical bug, and include the `psx_last_run_report.json` written next to the
+executable.
+
+The "PGO optimize" option in the launcher is known to fail on Windows with this
+framework revision. Please don't use it.
+
+## Credits and licenses
+
+- Framework: [PSXRecomp](https://github.com/mstan/psxrecomp), PolyForm
+  Noncommercial 1.0.0. This project is free and noncommercial.
+- Launcher: [recomp-ui](https://github.com/mstan/recomp-ui), MIT.
+- Framework revision and release pipeline: the
+  [Alexbeav](https://github.com/Alexbeav/psxrecomp) fork used by
+  [Alexbeav's PS1 ports](https://github.com/Alexbeav/psxrecomp-ports).
+- Their licenses and dependency notices are in the `psxrecomp/` and `recomp-ui/`
+  directories.
+
+This project was made with AI assistance (Claude).
+
+Hellnight is © Atlus 1999. The European release was
+published by Konami. All trademarks belong to their owners. This project is not
+affiliated with or endorsed by any of them.
