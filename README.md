@@ -32,9 +32,15 @@ Expected disc (data track 01): 633,786,384 bytes, MD5
 ```bash
 git clone --recursive https://github.com/goodshepherd23/Hellnight-Recompiled
 cd Hellnight-Recompiled
+cp bios/openbios.bin psxrecomp/bios/openbios.bin
 python psxrecomp/psxrecomp_cli.py generate --config game.toml --project-root . --disc "/path/to/Hellnight (Europe).cue" --force-emitters
 python psxrecomp/psxrecomp_cli.py rebuild --config game.toml --project-root . --build-dir build-release --target psx-runtime --exe-basename Hellnight_Recompiled --no-pgo
 ```
+
+The `cp` step is needed because the pinned framework revision does not include
+the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
+`psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
+`bios/OpenBIOS.LICENSE`.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
