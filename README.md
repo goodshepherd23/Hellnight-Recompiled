@@ -77,6 +77,13 @@ executable.
 game with profile-guided optimization: two 60-second training runs, then an
 optimized build. Leave the game window alone while it trains.
 
+## Walkthrough
+
+Stuck? [Hellnight PS1 Longplay (Naomi Ending)](https://www.youtube.com/watch?v=CheV_hI2-xE)
+by LaTanaDiMrX is a full playthrough of the original PlayStation game. It was not
+recorded on this build, so use it as a guide to the game, not as proof that every
+area works here.
+
 ## Credits and licenses
 
 - Framework: [PSXRecomp](https://github.com/mstan/psxrecomp), PolyForm
