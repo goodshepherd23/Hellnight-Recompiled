@@ -66,11 +66,10 @@ Version 0.1.1 is an early release. What was tested on Windows x64 (Intel Iris Xe
   the range directly instead. The Konami logo screen is taller than that range,
   so its bottom edge is cut off, the same as on an NTSC console. The save menu
   is cut off at the bottom the same way.
-- Saving to a memory card works: the save screen reports "Save completed!" and
-  the save file (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
+- Saving to a memory card and loading the save back both work. The save file
+  (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
 
-**Not tested yet:** loading a save back, a full playthrough, and the Linux
-and macOS packages. Please open an issue if you hit a crash, a hang or a
+**Not tested yet:** a full playthrough, and the Linux and macOS packages. Please open an issue if you hit a crash, a hang or a
 graphical bug, and include the `psx_last_run_report.json` written next to the
 executable.
 
