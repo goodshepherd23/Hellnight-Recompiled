@@ -1,11 +1,11 @@
-# Hellnight Recompiled - SLES-01562 (Europe).
+# Hell Night: Dark Messiah Recompiled - Hellnight (Europe), SLES-01562.
 # Autofilled by psxrecomp tools/new_project_layout/probe_disc.py from a legal dump.
 # BIOS: OpenBIOS (bundled with psxrecomp); no retail BIOS dump is required.
 # vsync = "off": the runtime paces off a wall clock, which avoids double-speed
 # play on displays whose driver vsync does not block.
 
 [game]
-name = "Hellnight"
+name = "Hell Night: Dark Messiah"
 id = "SLES-01562"
 players = 1
 exe = "disc/SLES_015.62"
@@ -33,7 +33,7 @@ out_dir = "generated"
 strict = true
 
 [runtime]
-window_title = "Hellnight Recompiled"
+window_title = "Hell Night: Dark Messiah Recompiled"
 memcard_dir = "saves"
 openbios = true
 

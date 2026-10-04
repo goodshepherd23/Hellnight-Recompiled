@@ -1,7 +1,7 @@
 format_version = 5
 id = "hellnight.cheats"
 version = "1.0.0"
-name = "Hellnight Cheats"
+name = "Hell Night: Dark Messiah Cheats"
 author = "goodshepherd23 (codes by DAVIN THE RAVEN)"
 description = "GameShark-style cheats for Hellnight (Europe), SLES-01562. Each one rewrites a value in the game's memory every frame. All are off by default."
 resolver = "declarative"

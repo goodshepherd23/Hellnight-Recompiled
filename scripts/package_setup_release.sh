@@ -82,7 +82,7 @@ exec bash "${PACKAGER}" \
   --artifact "${ARTIFACT_TAG}" \
   --zip-prefix hellnight \
   --exe-name Hellnight_Recompiled \
-  --display-name "Hellnight Recompiled" \
+  --display-name "Hell Night: Dark Messiah Recompiled" \
   --recompiler-build "${RECOMPILER_BUILD}" \
   --version-env RELEASE_VERSION \
   --runtime-dir mods \

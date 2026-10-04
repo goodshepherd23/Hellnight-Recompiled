@@ -1,12 +1,12 @@
 [project]
-name = "Hellnight"
+name = "Hell Night: Dark Messiah"
 slug = "hellnight"
 retail_id = "SLES-01562"
 region = "Europe"
 implementation_state = "release_candidate_prepared"
 
 [release]
-version = "0.1.2"
+version = "0.1.3"
 status = "candidate"
 target_date = "2026-10-02"
 

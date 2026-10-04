@@ -1,4 +1,4 @@
-# Hellnight Recompiled
+# Hell Night: Dark Messiah Recompiled
 
 A native PC build of **Hellnight** (PlayStation, 1999; *Dark Messiah* in Japan),
 made with the [PSXRecomp](https://github.com/mstan/psxrecomp) static recompiler
@@ -16,7 +16,8 @@ No retail BIOS is needed: the build uses the bundled
 
 1. Download the release ZIP for your platform and extract all of it into a
    writable folder.
-2. Start `Hellnight_Recompiled` (`.exe` on Windows).
+2. Start `Hellnight_Recompiled` (`.exe` on Windows). The program and the repository
+   keep the original short name; the window and launcher show the full title.
 3. Select your `Hellnight (Europe).cue` in the setup wizard. Keep the CUE and its
    BIN together.
 4. Run **Generate & rebuild** and wait. The game starts when it finishes.
@@ -56,7 +57,7 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.2 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+Version 0.1.3 is an early release. What was tested on Windows x64 (Intel Iris Xe):
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work

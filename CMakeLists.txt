@@ -31,7 +31,7 @@ psxrecomp_add_game_runtime(psx-runtime
 
     ENABLE_SETUP_WIZARD
     EXE_NAME "Hellnight_Recompiled"
-    WINDOW_TITLE "Hellnight Recompiled"
+    WINDOW_TITLE "Hell Night: Dark Messiah Recompiled"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     MAX_PLAYERS 1
 
