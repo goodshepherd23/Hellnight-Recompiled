@@ -17,7 +17,8 @@ No retail BIOS is needed: the build uses the bundled
 1. Download the release ZIP for your platform and extract all of it into a
    writable folder.
 2. Start `Hellnight_Recompiled` (`.exe` on Windows). The program and the repository
-   keep the original short name; the window and launcher show the full title.
+   keep the original short name. The launcher lists the game as **Dark Messiah**
+   and the game window is titled *Hell Night: Dark Messiah Recompiled*.
 3. Select your `Hellnight (Europe).cue` in the setup wizard. Keep the CUE and its
    BIN together.
 4. Run **Generate & rebuild** and wait. The game starts when it finishes.

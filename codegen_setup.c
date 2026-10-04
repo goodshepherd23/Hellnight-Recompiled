@@ -6,7 +6,7 @@
 #include "psxrecomp_codegen_host.h"
 
 static const PsxrecompCodegenHostConfig kCodegenConfig = {
-    .display_name = "Hell Night: Dark Messiah",
+    .display_name = "Dark Messiah",
     .project_root_env = "HELLNIGHT_PROJECT_ROOT",
     .build_dir_env = "HELLNIGHT_BUILD_DIR",
     .force_setup_env = "HELLNIGHT_FORCE_SETUP",

@@ -10,7 +10,7 @@
   "serial": "SLES-01562",
   "serial_exe": "SLES_015.62",
   "volume_id": "",
-  "display_name": "Hell Night: Dark Messiah",
+  "display_name": "Dark Messiah",
   "load_address": "0x80010000",
   "entry_pc": "0x80036E74",
   "text_size": "0x0006E000",

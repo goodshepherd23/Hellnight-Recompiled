@@ -5,7 +5,7 @@
 # play on displays whose driver vsync does not block.
 
 [game]
-name = "Hell Night: Dark Messiah"
+name = "Dark Messiah"
 id = "SLES-01562"
 players = 1
 exe = "disc/SLES_015.62"
