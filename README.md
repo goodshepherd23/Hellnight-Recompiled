@@ -45,20 +45,23 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
 
-The patches fix two things in the pinned framework:
+The patches fix three things in the pinned framework:
 
 - `0001` keeps FMVs from sitting low in the frame. The European disc runs in NTSC
   mode but keeps a PAL-tuned vertical display range.
 - `0002` makes the launcher's **PGO optimize** work on Windows. Without it, the
   training run fails with `[WinError 5] Access is denied` and writes no profile.
   `CMakeLists.txt` also wires up `PSX_PGO`, which this framework revision ignores.
+- `0003` removes thin vertical lines on tiled 2D screens (the anti-piracy notice
+  and the Konami logo) when **Texture filtering** is set to Bilinear. The filter
+  was blending each tile's first column with its last one.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.3 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+Version 0.1.4 is an early release. What was tested on Windows x64 (Intel Iris Xe):
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
