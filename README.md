@@ -56,7 +56,7 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.1 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+Version 0.1.2 is an early release. What was tested on Windows x64 (Intel Iris Xe):
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
@@ -76,6 +76,26 @@ executable.
 **PGO optimize** (in the launcher) works on Windows as of 0.1.1. It rebuilds the
 game with profile-guided optimization: two 60-second training runs, then an
 optimized build. Leave the game window alone while it trains.
+
+## Cheats
+
+The launcher's **Mods** page has a **Cheats** group. Tick what you want, then press
+PLAY. All are off by default.
+
+| Cheat | Effect | GameShark code |
+|---|---|---|
+| OK Status | Keeps your status at OK | `800AD840 0000` |
+| Infinite Ammo | Your companion's ammunition never runs out | `800ADD54 0001` |
+| Choose Companion | Forces who follows you: Naomi, Kamiya, Ivanoff, Rene or The Monster | `800ADD50 000N` + `800ADD58 0000` |
+
+The codes are for the European disc (SLES-01562) and are credited to DAVIN THE RAVEN
+on [psxdatacenter](https://psxdatacenter.com/games/P/H/SLES-01562.html). They are
+applied every frame by a small plugin (`src/hellnight_mods.c`) through the
+framework's mod system (`mods/packages/hellnight.cheats`).
+
+Tested on Windows: OK Status and Infinite Ammo write their values every frame and
+the game plays normally with them on. Choose Companion has not been tried in play.
+It overrides the story's own choice, so save before using it.
 
 ## Walkthrough
 

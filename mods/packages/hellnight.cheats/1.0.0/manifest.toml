@@ -1,0 +1,73 @@
+format_version = 5
+id = "hellnight.cheats"
+version = "1.0.0"
+name = "Hellnight Cheats"
+author = "goodshepherd23 (codes by DAVIN THE RAVEN)"
+description = "GameShark-style cheats for Hellnight (Europe), SLES-01562. Each one rewrites a value in the game's memory every frame. All are off by default."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01562"
+
+[[feature]]
+id = "ok-status"
+name = "OK Status"
+description = "Keeps the status value at OK (GameShark 800AD840 0000)."
+group = "Cheats"
+default_enabled = false
+
+[[plugin]]
+feature = "ok-status"
+id = "hellnight.cheat.ok-status"
+
+[[feature]]
+id = "infinite-ammo"
+name = "Infinite Ammo"
+description = "Your companion's ammunition never runs out (GameShark 800ADD54 0001)."
+group = "Cheats"
+default_enabled = false
+
+[[plugin]]
+feature = "infinite-ammo"
+id = "hellnight.cheat.infinite-ammo"
+
+[[feature]]
+id = "companion"
+name = "Choose Companion"
+description = "Forces which companion follows you (GameShark 800ADD50 000N + 800ADD58 0000). This overrides the story's own choice while it is on, so it can make scenes play out oddly."
+group = "Cheats"
+default_enabled = false
+
+[[option]]
+feature = "companion"
+id = "who"
+label = "Companion"
+description = "Who follows you while this cheat is on."
+group = "Cheats"
+type = "choice"
+default = "naomi"
+
+[[option.choice]]
+value = "naomi"
+label = "Naomi"
+
+[[option.choice]]
+value = "kamiya"
+label = "Kamiya"
+
+[[option.choice]]
+value = "ivanoff"
+label = "Ivanoff"
+
+[[option.choice]]
+value = "rene"
+label = "Rene"
+
+[[option.choice]]
+value = "monster"
+label = "The Monster"
+
+[[plugin]]
+feature = "companion"
+id = "hellnight.cheat.companion"

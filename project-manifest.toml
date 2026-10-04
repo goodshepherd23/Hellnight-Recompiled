@@ -6,7 +6,7 @@ region = "Europe"
 implementation_state = "release_candidate_prepared"
 
 [release]
-version = "0.1.1"
+version = "0.1.2"
 status = "candidate"
 target_date = "2026-10-02"
 

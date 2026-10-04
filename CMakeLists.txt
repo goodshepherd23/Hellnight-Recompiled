@@ -39,6 +39,7 @@ psxrecomp_add_game_runtime(psx-runtime
     GEN_MARKER "generated/SLES_015.62_dispatch.c"
     GEN_FULL_GLOB "generated/SLES_015.62_full_*.c"
     CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/hellnight_mods.c"
 )
 
 # Clang PGO. psxrecomp_cli.py `rebuild --force-pgo` passes -DPSX_PGO=generate
@@ -83,3 +84,13 @@ endforeach()
 # running in NTSC mode, which drops FMVs low with a black band on top. Present
 # the clipped range directly (patches/0001-display-fill-range.patch).
 target_compile_definitions(psx-runtime PRIVATE PSX_DISPLAY_FILL_RANGE=1)
+
+# Game-owned mod packages (the Cheats group on the launcher's Mods page). The
+# framework stages its own catalog first and clears mods/packages each build,
+# so copy ours afterwards.
+add_custom_command(TARGET psx-runtime POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/mods/packages/hellnight.cheats"
+        "$<TARGET_FILE_DIR:psx-runtime>/mods/packages/hellnight.cheats"
+    COMMENT "Staging Hellnight cheat package"
+    VERBATIM)
