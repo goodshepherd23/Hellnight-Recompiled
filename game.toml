@@ -15,17 +15,17 @@ entry_pc = "0x80036E74"
 text_size = "0x0006E000"
 stack_base = "0x801FFFF0"
 
-# Digests are for data Track 01. First entry: the Redump dump (redump.org disc
-# 7235). Second entry: the NTSC-converted copy used in development.
+# Digests are for data Track 01. In order: the Redump dump (redump.org disc
+# 7235), the NTSC-converted copy used in development, and the Undub v1.1 patch.
 [prepare_disc]
 out_dir = "disc"
 bin_name = "Hellnight (Europe).bin"
 cue_name = "Hellnight (Europe).cue"
 boot_exe = "SLES_015.62"
-known_sizes = [633786384, 633786384]
-known_md5 = ["050d2848368af2ef945706bc73ef69ef", "01ce6367485ab848973be612df58b5b9"]
-known_sha1 = ["6154819380f41c921f5d37f757a9985de7803a8c", "b0c791ebe50e5e678cb36aed531f2ac553b37999"]
-known_crc32 = ["06e7b4bd", "22de3f67"]
+known_sizes = [633786384, 633786384, 633786384]
+known_md5 = ["050d2848368af2ef945706bc73ef69ef", "01ce6367485ab848973be612df58b5b9", "cb6f8e5a863920bf33d8cfe78dd684df"]
+known_sha1 = ["6154819380f41c921f5d37f757a9985de7803a8c", "b0c791ebe50e5e678cb36aed531f2ac553b37999", "e5bc992aba7491b3e134d8a366d3f85695138d16"]
+known_crc32 = ["06e7b4bd", "22de3f67", "285ad082"]
 
 [recompiler]
 bios_config = "psxrecomp/bios/OpenBIOS.toml"

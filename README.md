@@ -28,11 +28,13 @@ install CMake, Ninja, Python 3 and a C/C++ compiler first.
 
 Accepted discs (data track 01, 633,786,384 bytes):
 
-- The Redump dump, MD5 `050d2848368af2ef945706bc73ef69ef`. Accepted from 0.1.5,
-  but **not tested**: see Status.
+- The Redump dump, MD5 `050d2848368af2ef945706bc73ef69ef`. Accepted from 0.1.5.
 - An NTSC-converted copy of the same disc, MD5
   `01ce6367485ab848973be612df58b5b9`. This is the dump the build was developed
-  and tested with.
+  with, and the one most of the testing below was done on. Its executable
+  differs from the Redump one by 9 bytes.
+- The Undub v1.1 patch of the European disc, MD5
+  `cb6f8e5a863920bf33d8cfe78dd684df`. Accepted from 0.1.5.
 
 ## Building from source
 
@@ -66,8 +68,14 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.5 is an early release. Everything below was tested on Windows x64
-(Intel Iris Xe) with the NTSC-converted dump, not the Redump one:
+Version 0.1.5 is an early release, tested on Windows x64 (Intel Iris Xe).
+
+With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
+game generates and builds, and it boots through the Konami logo and the intro
+FMV. These discs run in 50 Hz PAL mode, and the Konami logo is shown in full.
+Nothing past the intro was tested on them.
+
+With the NTSC-converted dump:
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
@@ -81,11 +89,10 @@ Version 0.1.5 is an early release. Everything below was tested on Windows x64
 - Saving to a memory card and loading the save back both work. The save file
   (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
 
-**Not tested yet:** the Redump dump, a full playthrough, and the Linux and macOS
-packages. Releases up to 0.1.4 rejected the Redump dump at **Generate** with a
-digest mismatch; 0.1.5 accepts it and generates the game code from your own
-executable. A real European disc should run in 50 Hz PAL mode, so speed, FMV
-placement and the cheats may behave differently from what is listed above. Please open an issue if you hit a crash, a hang or a
+**Not tested yet:** gameplay, saving and the cheats on the Redump and Undub
+dumps, a full playthrough on any dump, and the Linux and macOS packages.
+Releases up to 0.1.4 rejected the Redump dump at **Generate** with a digest
+mismatch. Please open an issue if you hit a crash, a hang or a
 graphical bug, and include the `psx_last_run_report.json` written next to the
 executable.
 
