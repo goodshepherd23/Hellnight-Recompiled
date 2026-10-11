@@ -26,8 +26,13 @@ No retail BIOS is needed: the build uses the bundled
 On Windows the setup wizard can download portable build tools. On Linux and macOS,
 install CMake, Ninja, Python 3 and a C/C++ compiler first.
 
-Expected disc (data track 01): 633,786,384 bytes, MD5
-`01ce6367485ab848973be612df58b5b9`.
+Accepted discs (data track 01, 633,786,384 bytes):
+
+- The Redump dump, MD5 `050d2848368af2ef945706bc73ef69ef`. Accepted from 0.1.5,
+  but **not tested**: see Status.
+- An NTSC-converted copy of the same disc, MD5
+  `01ce6367485ab848973be612df58b5b9`. This is the dump the build was developed
+  and tested with.
 
 ## Building from source
 
@@ -47,8 +52,8 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 
 The patches fix three things in the pinned framework:
 
-- `0001` keeps FMVs from sitting low in the frame. The European disc runs in NTSC
-  mode but keeps a PAL-tuned vertical display range.
+- `0001` keeps FMVs from sitting low in the frame. The NTSC-converted dump runs
+  in NTSC mode but keeps a PAL-tuned vertical display range.
 - `0002` makes the launcher's **PGO optimize** work on Windows. Without it, the
   training run fails with `[WinError 5] Access is denied` and writes no profile.
   `CMakeLists.txt` also wires up `PSX_PGO`, which this framework revision ignores.
@@ -61,20 +66,26 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.4 is an early release. What was tested on Windows x64 (Intel Iris Xe):
+Version 0.1.5 is an early release. Everything below was tested on Windows x64
+(Intel Iris Xe) with the NTSC-converted dump, not the Redump one:
 
 - Boots through the intro FMV to the title screen
 - New Game starts. In-game dialogue, the examine cursor and room transitions work
-- Holds about 100% speed at 60 fps (the European disc runs its GPU in 60 Hz mode)
-- FMVs fill the frame. The European disc keeps a PAL-tuned vertical range in NTSC
-  mode, which on a real NTSC console shows the picture low. This build presents
+- Holds about 100% speed at 60 fps (the NTSC-converted dump runs its GPU in
+  60 Hz mode)
+- FMVs fill the frame. The NTSC-converted dump keeps a PAL-tuned vertical range in
+  NTSC mode, which on a real NTSC console shows the picture low. This build presents
   the range directly instead. The Konami logo screen is taller than that range,
   so its bottom edge is cut off, the same as on an NTSC console. The save menu
   is cut off at the bottom the same way.
 - Saving to a memory card and loading the save back both work. The save file
   (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
 
-**Not tested yet:** a full playthrough, and the Linux and macOS packages. Please open an issue if you hit a crash, a hang or a
+**Not tested yet:** the Redump dump, a full playthrough, and the Linux and macOS
+packages. Releases up to 0.1.4 rejected the Redump dump at **Generate** with a
+digest mismatch; 0.1.5 accepts it and generates the game code from your own
+executable. A real European disc should run in 50 Hz PAL mode, so speed, FMV
+placement and the cheats may behave differently from what is listed above. Please open an issue if you hit a crash, a hang or a
 graphical bug, and include the `psx_last_run_report.json` written next to the
 executable.
 
