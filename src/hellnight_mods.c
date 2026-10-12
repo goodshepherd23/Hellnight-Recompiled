@@ -2,7 +2,8 @@
  *
  * Each feature is a GameShark type-80 code (16-bit constant write) for the
  * European disc SLES-01562, re-applied on every guest VBlank the way a cheat
- * cartridge does. Codes by DAVIN THE RAVEN (psxdatacenter.com). */
+ * cartridge does. Codes by DAVIN THE RAVEN (psxdatacenter.com); the code
+ * patches further down are from the DuckStation cheat database. */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,8 +62,61 @@ static void hn_companion(void) {
     hn_poke(3, "companion-aux", HN_COMPANION_AUX, 0x0000);
 }
 
+/* Code patches from the DuckStation cheat database entry for SLES-01562.
+ * Each replaces one branch in the boot executable. They go through
+ * psx_mod_write_code_word so the recompiled function picks the change up, and
+ * are only applied while the original instruction is still in place. */
+#define HN_FULLMAP_PC      0x80025724u
+#define HN_FULLMAP_ORIG    0x10600056u   /* beq v1, zero, +0x56 */
+#define HN_FULLMAP_PATCH   0x24000056u   /* never taken */
+#define HN_WALLS_PC        0x800598ACu
+#define HN_WALLS_ORIG      0x14400006u   /* bne v0, zero, +6 */
+#define HN_WALLS_PATCH     0x10000006u   /* always taken */
+#define HN_MONSTER1_PC      0x80056258u
+#define HN_MONSTER1_ORIG    0x10400006u   /* beq v0, zero, +6 */
+#define HN_MONSTER1_PATCH   0x10000006u   /* always taken */
+#define HN_MONSTER2_PC      0x80055E68u
+#define HN_MONSTER2_ORIG    0x1440004Du   /* bne v0, zero, +0x4D */
+#define HN_MONSTER2_PATCH   0x1000004Du   /* always taken */
+
+static void hn_patch_code(const char* what, uint32_t pc, uint32_t orig,
+                          uint32_t patch) {
+    if (!psx_mod_game_started()) return;
+    if (psx_mod_read_word(pc) != orig) return;
+    psx_mod_write_code_word(pc, patch);
+    if (getenv("HN_CHEAT_LOG")) {
+        FILE* f = fopen(getenv("HN_CHEAT_LOG"), "a");
+        if (f) {
+            fprintf(f, "[hellnight-cheat] %s @%08X %08X -> %08X\n", what,
+                    (unsigned)pc, (unsigned)orig, (unsigned)patch);
+            fclose(f);
+        }
+    }
+}
+
+static void hn_full_map(void) {
+    hn_patch_code("full-map", HN_FULLMAP_PC, HN_FULLMAP_ORIG, HN_FULLMAP_PATCH);
+}
+
+static void hn_walk_through_walls(void) {
+    hn_patch_code("walk-through-walls", HN_WALLS_PC, HN_WALLS_ORIG,
+                  HN_WALLS_PATCH);
+}
+
+static void hn_monster_harmless(void) {
+    hn_patch_code("monster-harmless", HN_MONSTER1_PC, HN_MONSTER1_ORIG,
+                  HN_MONSTER1_PATCH);
+    hn_patch_code("monster-harmless", HN_MONSTER2_PC, HN_MONSTER2_ORIG,
+                  HN_MONSTER2_PATCH);
+}
+
 PSX_MOD_CONSTRUCTOR(hellnight_register_cheats) {
     psx_mod_register_vblank_plugin("hellnight.cheat.ok-status", hn_ok_status);
     psx_mod_register_vblank_plugin("hellnight.cheat.infinite-ammo", hn_infinite_ammo);
     psx_mod_register_vblank_plugin("hellnight.cheat.companion", hn_companion);
+    psx_mod_register_vblank_plugin("hellnight.cheat.full-map", hn_full_map);
+    psx_mod_register_vblank_plugin("hellnight.cheat.walk-through-walls",
+                                   hn_walk_through_walls);
+    psx_mod_register_vblank_plugin("hellnight.cheat.monster-harmless",
+                                   hn_monster_harmless);
 }

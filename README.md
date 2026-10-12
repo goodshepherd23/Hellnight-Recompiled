@@ -68,7 +68,7 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.5 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.6 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
@@ -105,19 +105,39 @@ optimized build. Leave the game window alone while it trains.
 The launcher's **Mods** page has a **Cheats** group. Tick what you want, then press
 PLAY. All are off by default.
 
-| Cheat | Effect | GameShark code |
+| Cheat | Effect | Code |
 |---|---|---|
 | OK Status | Keeps your status at OK | `800AD840 0000` |
 | Infinite Ammo | Your companion's ammunition never runs out | `800ADD54 0001` |
 | Choose Companion | Forces who follows you: Naomi, Kamiya, Ivanoff, Rene or The Monster | `800ADD50 000N` + `800ADD58 0000` |
+| Show Full Map | The map (Square) shows the whole floor, including places you have not visited | patch at `80025724` |
+| Walk Through Walls | Turns off wall collision so you can walk out of bounds | patch at `800598AC` |
+| The Monster Can't Hurt You | The monster still chases you but cannot harm you | patches at `80056258` and `80055E68` |
 
-The codes are for the European disc (SLES-01562) and are credited to DAVIN THE RAVEN
-on [psxdatacenter](https://psxdatacenter.com/games/P/H/SLES-01562.html). They are
-applied every frame by a small plugin (`src/hellnight_mods.c`) through the
-framework's mod system (`mods/packages/hellnight.cheats`).
+The codes are for the European disc (SLES-01562). The first three are GameShark
+codes credited to DAVIN THE RAVEN on
+[psxdatacenter](https://psxdatacenter.com/games/P/H/SLES-01562.html) and are
+written to memory every frame. The last three come from the
+[DuckStation cheat database](https://github.com/duckstation/chtdb/blob/master/cheats/SLES-01562.cht)
+and each change an instruction in the game's code. All are applied by a small
+plugin (`src/hellnight_mods.c`) through the framework's mod system
+(`mods/packages/hellnight.cheats`).
 
-Tested on Windows: OK Status and Infinite Ammo write their values every frame and
-the game plays normally with them on. Choose Companion has not been tried in play.
+The three code-patch cheats stay on for the whole session: switch them on the
+Mods page before pressing PLAY. With Walk Through Walls on you can leave the map
+or skip story triggers and get stuck, so save first.
+
+Tested on Windows with the NTSC-converted dump: OK Status and Infinite Ammo write
+their values every frame and the game plays normally with them on. Walk Through
+Walls was checked against a run with it off: with it on the player walks through
+a tunnel wall, with it off the same input stops at the wall. With Show Full Map
+on, the map showed the whole first sewer area; it was not compared with a run
+with it off. The Monster Can't Hurt You applies its patches and the game runs
+normally, but no monster encounter was played. Choose Companion has not been
+tried in play.
+
+The database's "Hide Compass" code is left out: in this build it also removed
+characters and scenery.
 It overrides the story's own choice, so save before using it.
 
 ## Walkthrough

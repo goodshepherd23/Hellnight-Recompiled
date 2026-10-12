@@ -1,9 +1,9 @@
 format_version = 5
 id = "hellnight.cheats"
-version = "1.0.0"
+version = "1.1.0"
 name = "Hell Night: Dark Messiah Cheats"
-author = "goodshepherd23 (codes by DAVIN THE RAVEN)"
-description = "GameShark-style cheats for Hellnight (Europe), SLES-01562. Each one rewrites a value in the game's memory every frame. All are off by default."
+author = "goodshepherd23 (codes by DAVIN THE RAVEN and the DuckStation cheat database)"
+description = "GameShark-style cheats for Hellnight (Europe), SLES-01562. The first three rewrite a value in the game's memory every frame; the others each change an instruction in the game's code. All are off by default."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -71,3 +71,36 @@ label = "The Monster"
 [[plugin]]
 feature = "companion"
 id = "hellnight.cheat.companion"
+
+[[feature]]
+id = "full-map"
+name = "Show Full Map"
+description = "The map shows every area of the current floor, including places you have not visited yet. Turn it on or off here before pressing PLAY."
+group = "Cheats"
+default_enabled = false
+
+[[plugin]]
+feature = "full-map"
+id = "hellnight.cheat.full-map"
+
+[[feature]]
+id = "walk-through-walls"
+name = "Walk Through Walls"
+description = "Turns off wall collision so you can walk out of bounds. It stays on for the whole session, so you can leave the map or skip past story triggers and get stuck: save first. Turn it on or off here before pressing PLAY."
+group = "Cheats"
+default_enabled = false
+
+[[plugin]]
+feature = "walk-through-walls"
+id = "hellnight.cheat.walk-through-walls"
+
+[[feature]]
+id = "monster-harmless"
+name = "The Monster Can't Hurt You"
+description = "The monster still chases you but cannot harm you. Turn it on or off here before pressing PLAY."
+group = "Cheats"
+default_enabled = false
+
+[[plugin]]
+feature = "monster-harmless"
+id = "hellnight.cheat.monster-harmless"
