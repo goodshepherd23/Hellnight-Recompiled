@@ -110,10 +110,26 @@ static void hn_monster_harmless(void) {
                   HN_MONSTER2_PATCH);
 }
 
+/* Widescreen (mods/packages/hellnight.widescreen). The framework keeps the
+ * generic Settings aspect at 4:3 on PSX and leaves widescreen to a mod, so this
+ * activation callback selects the wide display aspect before the window opens.
+ * The runtime then squashes the GTE projection to widen the field of view. */
+static void hn_widescreen(void) {
+    char aspect[8];
+    if (psx_mod_option_value("hellnight.widescreen", "widescreen", "aspect",
+                             aspect, sizeof(aspect)) &&
+        strcmp(aspect, "21:9") == 0) {
+        psx_mod_set_fixed_display_aspect(21u, 9u);
+        return;
+    }
+    psx_mod_set_fixed_display_aspect(16u, 9u);
+}
+
 PSX_MOD_CONSTRUCTOR(hellnight_register_cheats) {
     psx_mod_register_vblank_plugin("hellnight.cheat.ok-status", hn_ok_status);
     psx_mod_register_vblank_plugin("hellnight.cheat.infinite-ammo", hn_infinite_ammo);
     psx_mod_register_vblank_plugin("hellnight.cheat.companion", hn_companion);
+    psx_mod_register_activation_plugin("hellnight.widescreen", hn_widescreen);
     psx_mod_register_vblank_plugin("hellnight.cheat.full-map", hn_full_map);
     psx_mod_register_vblank_plugin("hellnight.cheat.walk-through-walls",
                                    hn_walk_through_walls);

@@ -94,3 +94,9 @@ add_custom_command(TARGET psx-runtime POST_BUILD
         "$<TARGET_FILE_DIR:psx-runtime>/mods/packages/hellnight.cheats"
     COMMENT "Staging Hellnight cheat package"
     VERBATIM)
+add_custom_command(TARGET psx-runtime POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/mods/packages/hellnight.widescreen"
+        "$<TARGET_FILE_DIR:psx-runtime>/mods/packages/hellnight.widescreen"
+    COMMENT "Staging Hellnight widescreen package"
+    VERBATIM)

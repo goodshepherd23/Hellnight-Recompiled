@@ -1,0 +1,39 @@
+format_version = 5
+id = "hellnight.widescreen"
+version = "1.0.0"
+name = "Hell Night: Dark Messiah Widescreen"
+author = "goodshepherd23"
+description = "Widescreen for Hellnight (Europe), SLES-01562, using the framework's GTE widescreen hack: the 3D view is widened to fill a 16:9 or 21:9 window. Off by default."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SLES-01562"
+
+[[feature]]
+id = "widescreen"
+name = "Widescreen"
+description = "Widens the 3D view to fill a wide window. Takes effect when the game starts. Pre-rendered movies stay 4:3 with black bars at the sides."
+group = "Display"
+default_enabled = false
+
+[[option]]
+feature = "widescreen"
+id = "aspect"
+label = "Aspect ratio"
+description = "Shape of the game window."
+group = "Display"
+type = "choice"
+default = "16:9"
+
+[[option.choice]]
+value = "16:9"
+label = "16:9"
+
+[[option.choice]]
+value = "21:9"
+label = "21:9 (ultrawide)"
+
+[[plugin]]
+feature = "widescreen"
+id = "hellnight.widescreen"

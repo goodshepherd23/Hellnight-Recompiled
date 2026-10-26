@@ -43,6 +43,7 @@ git clone --recursive https://github.com/goodshepherd23/Hellnight-Recompiled
 cd Hellnight-Recompiled
 cp bios/openbios.bin psxrecomp/bios/openbios.bin
 for p in patches/*.patch; do git -C psxrecomp apply "../$p"; done
+for p in patches/recomp-ui/*.patch; do git -C recomp-ui apply "../$p"; done
 python psxrecomp/psxrecomp_cli.py generate --config game.toml --project-root . --disc "/path/to/Hellnight (Europe).cue" --force-emitters
 python psxrecomp/psxrecomp_cli.py rebuild --config game.toml --project-root . --build-dir build-release --target psx-runtime --exe-basename Hellnight_Recompiled --no-pgo
 ```
@@ -52,7 +53,7 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
 
-The patches fix three things in the pinned framework:
+The patches change four things in the pinned framework and its launcher:
 
 - `0001` keeps FMVs from sitting low in the frame. The NTSC-converted dump runs
   in NTSC mode but keeps a PAL-tuned vertical display range.
@@ -62,13 +63,17 @@ The patches fix three things in the pinned framework:
 - `0003` removes thin vertical lines on tiled 2D screens (the anti-piracy notice
   and the Konami logo) when **Texture filtering** is set to Bilinear. The filter
   was blending each tile's first column with its last one.
+- `0004` (plus `patches/recomp-ui/0001`) raises the **Supersampling** limit from
+  4x to 8x. The pinned framework rejects higher values in `settings.toml` and
+  silently falls back to 1x. On the test laptop (Intel Iris Xe) the intro held
+  60 fps at 4x, 6x and 8x alike; gameplay at 8x was not timed.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.6 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.7 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
@@ -99,6 +104,20 @@ executable.
 **PGO optimize** (in the launcher) works on Windows as of 0.1.1. It rebuilds the
 game with profile-guided optimization: two 60-second training runs, then an
 optimized build. Leave the game window alone while it trains.
+
+## Widescreen
+
+The **Mods** page has a **Display** group with a **Widescreen** mod (off by
+default). Turn it on, pick 16:9 or 21:9, then press PLAY. It uses the framework's
+GTE widescreen hack: the 3D view is widened to fill the wider window, while the
+HUD, the dialogue box and characters keep their proportions. Menus, the title
+screen and pre-rendered movies stay 4:3 with black bars at the sides.
+
+Tested on Windows at 16:9 with the NTSC-converted dump: gameplay and dialogue in
+the first sewer area fill the window with a wider view, and the compass,
+characters and text box are not stretched. 21:9, later areas, and objects at the
+far edges of the wider view were not checked; the game may not draw everything
+that the wider view reveals.
 
 ## Cheats
 

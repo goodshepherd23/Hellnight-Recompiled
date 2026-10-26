@@ -50,3 +50,11 @@ default_mode = "digital"
 require_cue = true
 required_tracks = 1
 required_disc_fp = "91617156264765fc02200082e9c625eacff20bb178bae8c92a4ad45175526cf4"
+
+# Widescreen is opt-in through the Widescreen mod (Mods page). Use the GTE
+# squash hack: native-wide needs per-game culling work this title has not had.
+# gte_game_mode lets 3D gameplay frames widen; menus and movies stay 4:3.
+[widescreen]
+native_wide = false
+hud_sprt_squash = true
+gte_game_mode = true
