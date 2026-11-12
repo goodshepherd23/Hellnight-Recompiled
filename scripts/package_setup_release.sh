@@ -55,6 +55,11 @@ fi
 if [[ -d "${ROOT}/mods" ]]; then
   EXTRA_PROJECT+=(--project-dir mods)
 fi
+# Hellnight: tools/make_60hz_disc.py turns a 50 Hz disc into a 60 Hz copy
+# (README "60 Hz mode"), so ship it beside the kit.
+if [[ -d "${ROOT}/tools" ]]; then
+  EXTRA_PROJECT+=(--project-dir tools)
+fi
 # Desktop/app icon sources. CMakeLists.txt passes APP_ICON
 # "${CMAKE_CURRENT_SOURCE_DIR}/assets/psxrecomp.ico" unguarded, so a zip
 # without assets/ cannot configure. runtime.cmake also stages the sibling

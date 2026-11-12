@@ -35,6 +35,40 @@ Accepted discs (data track 01, 633,786,384 bytes):
   differs from the Redump one by 9 bytes.
 - The Undub v1.1 patch of the European disc, MD5
   `cb6f8e5a863920bf33d8cfe78dd684df`. Accepted from 0.1.5.
+- A 60 Hz copy of the Undub v1.1 disc made with `tools/make_60hz_disc.py`, MD5
+  `c2dc2bdd0bbb373046405fa3b29bc5f5`. Accepted from 0.1.9. See
+  [60 Hz mode](#60-hz-mode).
+
+## 60 Hz mode
+
+The European disc runs in 50 Hz PAL mode, and the Redump and Undub dumps play
+that way here too. To play at 60 Hz, make a 60 Hz copy of your disc and select
+the copy in the setup wizard:
+
+```bash
+python tools/make_60hz_disc.py "/path/to/Hellnight (Europe).cue"
+```
+
+The script ships in the release ZIP and needs Python 3.8 or newer, with no
+extra packages. It writes the copy to a new `<disc name> (60Hz)` folder next to
+your disc folder (or to a folder you pass as a second argument) and leaves your
+original files alone. Then run **Generate & rebuild** with the new `.cue`.
+
+What it changes: 9 bytes of the game's executable, so the game always picks
+60 Hz (NTSC) video instead of reading the PAL setting, plus fresh error
+correction data for the two disc sectors involved. These are the same bytes the
+NTSC-converted dump has, so a 60 Hz copy of the Redump dump is identical to
+that dump. The script only accepts the Redump and Undub v1.1 dumps, and checks
+the result against the digests above.
+
+In 60 Hz mode the game still draws full-height PAL frames. From 0.1.8 the whole
+picture is shown (`patches/0005`); earlier releases cut off its bottom edge.
+Pre-rendered movies keep their own framing.
+
+Tested on Windows with the Undub v1.1 dump: the copy passes the disc check,
+builds, runs at 60 Hz and shows the Konami logo, the intro movie and the title
+screen. Gameplay on the 60 Hz Undub copy has not been tested; gameplay at 60 Hz
+was tested on the NTSC-converted dump (see Status below).
 
 ## Building from source
 
@@ -77,7 +111,7 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.8 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.9 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
