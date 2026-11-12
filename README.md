@@ -53,7 +53,7 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
 
-The patches change four things in the pinned framework and its launcher:
+The patches change five things in the pinned framework and its launcher:
 
 - `0001` keeps FMVs from sitting low in the frame. The NTSC-converted dump runs
   in NTSC mode but keeps a PAL-tuned vertical display range.
@@ -67,13 +67,17 @@ The patches change four things in the pinned framework and its launcher:
   4x to 8x. The pinned framework rejects higher values in `settings.toml` and
   silently falls back to 1x. On the test laptop (Intel Iris Xe) the intro held
   60 fps at 4x, 6x and 8x alike; gameplay at 8x was not timed.
+- `0005` shows the full picture height when the game runs in 60 Hz mode. The
+  game still draws 256-line PAL frames there but asks the display for only 218
+  lines, which cut off the bottom of the Konami logo, the title-screen options
+  and the save menu. FMVs are not affected.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.7 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.8 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
@@ -88,9 +92,11 @@ With the NTSC-converted dump:
   60 Hz mode)
 - FMVs fill the frame. The NTSC-converted dump keeps a PAL-tuned vertical range in
   NTSC mode, which on a real NTSC console shows the picture low. This build presents
-  the range directly instead. The Konami logo screen is taller than that range,
-  so its bottom edge is cut off, the same as on an NTSC console. The save menu
-  is cut off at the bottom the same way.
+  the range directly instead.
+- The Konami logo and the title-screen options are shown in full from 0.1.8.
+  Earlier releases cut off their bottom edge, and the save menu's, the same as
+  an NTSC console does. The save menu and gameplay screens at the full height
+  were not checked.
 - Saving to a memory card and loading the save back both work. The save file
   (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
 

@@ -1,0 +1,19 @@
+diff --git a/runtime/src/gpu.c b/runtime/src/gpu.c
+index 18ed491b..a5e1f7c3 100644
+--- a/runtime/src/gpu.c
++++ b/runtime/src/gpu.c
+@@ -3268,6 +3268,14 @@ void gpu_get_display_info(GpuDisplayInfo* out) {
+         /* The active canvas is a depth24 staging contract. Keep direct 15-bit
+          * source rectangles independent from its origin and 576-row limit. */
+         if (h > 512u) h = 512u;
++#ifdef PSX_DISPLAY_FILL_RANGE
++        /* Hellnight Recompiled, 60 Hz discs: the European game still draws
++         * 256-line PAL frames, but in NTSC mode it programs a 218-line range,
++         * which cut off the Konami logo, title options and the save menu.
++         * Present the whole 256-row frame instead. 24-bit FMVs are unchanged. */
++        if (!(video_mode & 1u) && !vres && vertical.range_set && h < 256u)
++            h = 256u;
++#endif
+         screen_h = h;
+         screen_origin_y = 0u;
+         screen_source_skip_y = 0u;
