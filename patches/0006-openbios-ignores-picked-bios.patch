@@ -1,0 +1,48 @@
+diff --git a/psxrecomp_cli.py b/psxrecomp_cli.py
+index cdd44e60..c2c6b247 100755
+--- a/psxrecomp_cli.py
++++ b/psxrecomp_cli.py
+@@ -822,6 +822,29 @@ def bios_backend_present(fw: Path, stem: str) -> bool:
+     return f"{stem}_psx_bios_backend" in text
+ 
+ 
++# Hellnight Recompiled: the title's bios_config is the bundled OpenBIOS
++# profile, so a dump picked in the setup wizard must not be staged over
++# bios/openbios.bin (it then fails the profile's SHA-256 check, and every later
++# Generate fails too). Restore the image from the kit's spare copy if needed.
++OPENBIOS_SHA256 = "fabe498fbf224e4721f12f31b6f5fe0659205e341dc4e5c5f91b9bd1a1011c57"
++
++
++def restore_openbios_image(
++    project_root: Path, fw: Path, progress: ProgressReporter
++) -> None:
++    def sha256_of(path: Path) -> str:
++        return hashlib.sha256(path.read_bytes()).hexdigest()
++
++    rom = fw / "bios" / "openbios.bin"
++    if rom.is_file() and sha256_of(rom) == OPENBIOS_SHA256:
++        return
++    spare = project_root / "bios" / "openbios.bin"
++    if spare.is_file() and sha256_of(spare) == OPENBIOS_SHA256:
++        rom.parent.mkdir(parents=True, exist_ok=True)
++        shutil.copy2(spare, rom)
++        progress.log(f"Restored the bundled OpenBIOS image at {rom}")
++
++
+ def regen_bios_profile(
+     project_root: Path,
+     profile_rel: str,
+@@ -1126,6 +1149,13 @@ def cmd_generate(args: argparse.Namespace, progress: ProgressReporter) -> int:
+         return EXIT_ERROR
+ 
+     bios_arg = (getattr(args, "bios", None) or "").strip()
++    if bios_arg and retail_profile == "bios/OpenBIOS.toml":
++        progress.log(
++            "This title runs on the bundled OpenBIOS; ignoring the selected "
++            f"BIOS dump ({bios_arg})"
++        )
++        bios_arg = ""
++    restore_openbios_image(project_root, fw, progress)
+     staged_retail = False
+     if bios_arg:
+         bios_path = Path(bios_arg).expanduser()

@@ -10,7 +10,11 @@ BIOS dump, no generated game code and no saves**. The game code is generated on
 your machine from your disc.
 
 No retail BIOS is needed: the build uses the bundled
-[OpenBIOS](https://github.com/grumpycoders/pcsx-redux) image.
+[OpenBIOS](https://github.com/grumpycoders/pcsx-redux) image. If the setup
+wizard offers a BIOS choice, pick OpenBIOS. From 0.1.10 a BIOS dump picked
+there is ignored; in earlier releases it made **Generate** fail (see `0006`
+below). If an older release already failed this way, extract the new ZIP over
+the folder and run **Generate & rebuild** again.
 
 ## Setup
 
@@ -87,7 +91,7 @@ the OpenBIOS image; `bios/openbios.bin` here is the MIT-licensed build pinned in
 `psxrecomp/bios/OpenBIOS.toml` (SHA-256 `fabe498f…1c57`), with its notice in
 `bios/OpenBIOS.LICENSE`.
 
-The patches change five things in the pinned framework and its launcher:
+The patches change six things in the pinned framework and its launcher:
 
 - `0001` keeps FMVs from sitting low in the frame. The NTSC-converted dump runs
   in NTSC mode but keeps a PAL-tuned vertical display range.
@@ -105,13 +109,19 @@ The patches change five things in the pinned framework and its launcher:
   game still draws 256-line PAL frames there but asks the display for only 218
   lines, which cut off the bottom of the Konami logo, the title-screen options
   and the save menu. FMVs are not affected.
+- `0006` keeps a BIOS dump picked in the setup wizard from replacing the bundled
+  OpenBIOS image. This game always runs on OpenBIOS, and the pinned framework
+  copied the picked dump over `psxrecomp/bios/openbios.bin`, so **Generate**
+  failed with `psxrecomp-bios failed for bios/OpenBIOS.toml (exit 1)`, and kept
+  failing after switching back to OpenBIOS. The picked dump is now ignored, and
+  a damaged `openbios.bin` is restored from the kit's own copy.
 
 `--force-emitters` is required. Without it, `generate` can pick up stale prebuilt
 emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.9 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.10 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
