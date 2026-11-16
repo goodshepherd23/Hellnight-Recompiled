@@ -67,6 +67,8 @@ the result against the digests above.
 
 In 60 Hz mode the game still draws full-height PAL frames. From 0.1.8 the whole
 picture is shown (`patches/0005`); earlier releases cut off its bottom edge.
+0.1.8 to 0.1.10 showed a strip of the top of the scene again at the bottom of
+the screen during gameplay; 0.1.11 fixes that.
 Pre-rendered movies keep their own framing.
 
 Tested on Windows with the Undub v1.1 dump: the copy passes the disc check,
@@ -106,9 +108,12 @@ The patches change six things in the pinned framework and its launcher:
   silently falls back to 1x. On the test laptop (Intel Iris Xe) the intro held
   60 fps at 4x, 6x and 8x alike; gameplay at 8x was not timed.
 - `0005` shows the full picture height when the game runs in 60 Hz mode. The
-  game still draws 256-line PAL frames there but asks the display for only 218
-  lines, which cut off the bottom of the Konami logo, the title-screen options
-  and the save menu. FMVs are not affected.
+  game still draws PAL-height frames there but asks the display for only about
+  216 lines, which cut off the bottom of the Konami logo, the title-screen
+  options and the save menu. The patch shows as many lines as the game draws:
+  256 on the title screens, 240 in gameplay. (0.1.8 to 0.1.10 always showed
+  256, which in gameplay repeated the top of the scene in a strip at the
+  bottom.) FMVs are not affected.
 - `0006` keeps a BIOS dump picked in the setup wizard from replacing the bundled
   OpenBIOS image. This game always runs on OpenBIOS, and the pinned framework
   copied the picked dump over `psxrecomp/bios/openbios.bin`, so **Generate**
@@ -121,7 +126,7 @@ emitters that leave the build with no BIOS backend.
 
 ## Status
 
-Version 0.1.10 is an early release, tested on Windows x64 (Intel Iris Xe).
+Version 0.1.11 is an early release, tested on Windows x64 (Intel Iris Xe).
 
 With the Redump dump and with the Undub v1.1 dump: the disc check passes, the
 game generates and builds, and it boots through the Konami logo and the intro
@@ -139,8 +144,9 @@ With the NTSC-converted dump:
   the range directly instead.
 - The Konami logo and the title-screen options are shown in full from 0.1.8.
   Earlier releases cut off their bottom edge, and the save menu's, the same as
-  an NTSC console does. The save menu and gameplay screens at the full height
-  were not checked.
+  an NTSC console does. Gameplay in the first sewer area shows its full
+  240-line frame with a clean bottom edge from 0.1.11. The save menu at the
+  full height was not checked.
 - Saving to a memory card and loading the save back both work. The save file
   (`BESLES-01562-DM0`) is written to `saves/card1.mcd`.
 
