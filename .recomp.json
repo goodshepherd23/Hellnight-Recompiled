@@ -9,7 +9,7 @@
     "serial": "SLES-01562"
   },
   "project": "Hell Night: Dark Messiah Recompiled",
-  "status": "released",
+  "status": "playable",
   "targets": ["Windows", "Linux", "macOS"],
   "toolchain": "PSXRecomp"
 }
