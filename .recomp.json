@@ -1,0 +1,15 @@
+{
+  "$schema": "https://recomp.fyi/schema/v1.json",
+  "game": "Hellnight",
+  "wikidata": "Q3112747",
+  "system": "PS1",
+  "type": "recomp",
+  "original": {
+    "region": "Europe",
+    "serial": "SLES-01562"
+  },
+  "project": "Hell Night: Dark Messiah Recompiled",
+  "status": "released",
+  "targets": ["Windows", "Linux", "macOS"],
+  "toolchain": "PSXRecomp"
+}
